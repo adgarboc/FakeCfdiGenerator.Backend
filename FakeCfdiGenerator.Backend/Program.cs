@@ -14,7 +14,9 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-
+    
+    builder.Configuration.AddEnvironmentVariables();
+    
     Log.Logger = new LoggerConfiguration()
         .MinimumLevel.Debug()
         .WriteTo.File("logs/logs_.log", rollingInterval: RollingInterval.Day)
@@ -31,8 +33,8 @@ try
 
     builder.Services.AddDbContext<ApplicationContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection") ??
-                             throw new ArgumentException("sqlConnection is null"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection") ??
+                             throw new ArgumentException("SqlConnection is null"));
     });
 
     builder.Services.AddCors(options =>
